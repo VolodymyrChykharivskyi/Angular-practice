@@ -1,1 +1,15 @@
-<h1>Hello</h1>
+<h1>This is placeholder with structure directive</h1>
+
+<hr />
+
+<app-placeholder *appHideAfter="6; then after; let count">
+	<h3>Placeholder before directive</h3>
+	<p>Will disappear after {{ count }}</p>
+</app-placeholder>
+
+<ng-template #after let-delay="delay">
+	<app-placeholder>
+		<h3>Placeholder after directive</h3>
+		<p>Placeholder after {{ delay }} seconds</p>
+	</app-placeholder>
+</ng-template>
