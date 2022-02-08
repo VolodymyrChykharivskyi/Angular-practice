@@ -6,18 +6,24 @@
 			<input type="text" placeholder="Назва" [(ngModel)]="todoTitle"/>
 		</div>
 		<button class="btn" (click)="onAddTodo()">Добавити</button>
-		<button class="btn">Загрузити</button>
+		<button class="btn" (click)="onFetchTotos()">Загрузити</button>
 	</div>
 
 	<hr />
 
-	<div class="card" *ngFor="let todo of todos">
-		<p>
-			<span [class.completed]="todo.completed">{{ todo.title | titlecase }}</span>
-			<span>
+	<div *ngIf="!isLoading; else loading">
+		<div class="card" *ngFor="let todo of todos">
+			<p>
+				<span [class.completed]="todo.completed">{{ todo.title | titlecase }}</span>
+				<span>
 				<button class="btn btn-danger">Видалити</button>
 				<button class="btn" [disabled]="todo.completed">Завершити</button>
 			</span>
-		</p>
+			</p>
+		</div>
 	</div>
+
+	<ng-template #loading>
+		<p>Loading...</p>
+	</ng-template>
 </div>
