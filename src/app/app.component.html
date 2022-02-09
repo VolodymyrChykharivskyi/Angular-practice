@@ -3,7 +3,7 @@
 
 	<div class="card">
 		<div class="form-control">
-			<input type="text" placeholder="Назва" [(ngModel)]="todoTitle"/>
+			<input type="text" placeholder="Назва" [(ngModel)]="todoTitle" />
 		</div>
 		<button class="btn" (click)="onAddTodo()">Добавити</button>
 		<button class="btn" (click)="onFetchTotos()">Загрузити</button>
@@ -11,19 +11,31 @@
 
 	<hr />
 
-	<div *ngIf="!isLoading; else loading">
-		<div class="card" *ngFor="let todo of todos">
-			<p>
-				<span [class.completed]="todo.completed">{{ todo.title | titlecase }}</span>
-				<span>
-				<button class="btn btn-danger">Видалити</button>
-				<button class="btn" [disabled]="todo.completed">Завершити</button>
-			</span>
-			</p>
-		</div>
-	</div>
+	<p *ngIf="error; else content" class="error">{{ error }}</p>
 
-	<ng-template #loading>
-		<p>Loading...</p>
+	<ng-template #content>
+		<div *ngIf="!isLoading; else loading">
+			<div *ngIf="todos.length; else noTodos">
+				<div class="card" *ngFor="let todo of todos">
+					<p>
+						<span [class.completed]="todo.completed">{{ todo.title | titlecase }}</span>
+						<span>
+							<button class="btn btn-danger" (click)="onRemoveTodo(todo.id)">Видалити</button>
+							<button class="btn" [disabled]="todo.completed" (click)="onCompleteTodo(todo.id)">
+								Завершити
+							</button>
+						</span>
+					</p>
+				</div>
+			</div>
+
+			<ng-template #noTodos>
+				<p>No items</p>
+			</ng-template>
+		</div>
+
+		<ng-template #loading>
+			<p>Loading...</p>
+		</ng-template>
 	</ng-template>
 </div>

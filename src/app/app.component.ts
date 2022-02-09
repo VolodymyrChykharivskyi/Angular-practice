@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
 import { Todo } from './interfaces/todo.interface';
-import { delay } from 'rxjs/operators';
+
+import { TodoRestService } from './services/toto-rest/todo-rest.service';
 
 @Component({
 	selector: 'app-root',
@@ -16,7 +16,9 @@ export class AppComponent implements OnInit {
 
 	public todoTitle = '';
 
-	constructor(private http: HttpClient) {}
+	public error = '';
+
+	constructor(private todoRestService: TodoRestService) {}
 
 	public ngOnInit() {
 		this.onFetchTotos();
@@ -32,7 +34,7 @@ export class AppComponent implements OnInit {
 			completed: false,
 		};
 
-		this.http.post<Todo>('https://jsonplaceholder.typicode.com/todos', newTodo).subscribe((resp) => {
+		this.todoRestService.addItem(newTodo).subscribe((resp) => {
 			this.todos.push(resp);
 			this.todoTitle = '';
 		});
@@ -41,13 +43,25 @@ export class AppComponent implements OnInit {
 	public onFetchTotos(): void {
 		this.isLoading = true;
 
-		this.http
-			.get<Todo[]>('https://jsonplaceholder.typicode.com/todos?_limit=2')
-			.pipe(delay(1500))
-			.subscribe((resp) => {
-				this.todos = resp;
+		this.todoRestService.getItems().subscribe((resp) => {
+			this.todos = resp;
 
-				this.isLoading = false;
-			});
+			this.isLoading = false;
+		}, error => {
+			this.error = error.message;
+			console.log(error);
+		});
+	}
+
+	public onRemoveTodo(id: number): void {
+		this.todoRestService.removeItem(id).subscribe(() => {
+			this.todos = this.todos.filter((todo) => todo.id !== id);
+		});
+	}
+
+	public onCompleteTodo(id: number): void {
+		this.todoRestService.completeTodo(id).subscribe((resp) => {
+			this.todos.find((todo) => todo.id === id).completed = true;
+		});
 	}
 }
