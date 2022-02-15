@@ -9,9 +9,10 @@ import { PostsComponent } from './components/posts/posts.component';
 import { PostComponent } from './components/post/post.component';
 import { AboutExtraComponent } from './components/about-extra/about-extra.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 @NgModule({
-	declarations: [AppComponent, AboutComponent, HomeComponent, PostsComponent, PostComponent, AboutExtraComponent],
+	declarations: [AppComponent, AboutComponent, HomeComponent, PostsComponent, PostComponent, AboutExtraComponent, ErrorPageComponent],
 	imports: [BrowserModule, FormsModule, AppRoutingModule],
 	providers: [],
 	bootstrap: [AppComponent],
