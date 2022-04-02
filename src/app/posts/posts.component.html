@@ -1,6 +1,6 @@
 <h1>Posts page</h1>
 
-<button class="btn" [routerLink]="['/posts']" [queryParams]="{ show_ids: true }" fragment="fragment">Show Ids</button>
+<button class="btn" [routerLink]="['/posts']" [queryParams]="{ showIds: true }" fragment="fragment">Show Ids</button>
 <button class="btn" (click)="onShowIdsClick()">Show Ids (program)</button>
 
 <div class="card" *ngFor="let post of postsService.posts">
