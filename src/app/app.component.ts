@@ -1,15 +1,5 @@
 import { Component } from '@angular/core';
-import {
-	animate,
-	AnimationEvent,
-	group,
-	keyframes,
-	query,
-	state,
-	style,
-	transition,
-	trigger,
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import { boxAnimation } from './app.animation';
 
 @Component({
