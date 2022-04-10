@@ -7,6 +7,7 @@ import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminPostAddComponent } from './pages/admin-post-add/admin-post-add.component';
 import { AdminPostEditComponent } from './pages/admin-post-edit/admin-post-edit.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AuthGuard } from './guards';
 
 const routes: Routes = [
 	{
@@ -15,9 +16,9 @@ const routes: Routes = [
 		children: [
 			{ path: '', redirectTo: '/admin/login', pathMatch: 'full' },
 			{ path: 'login', component: AdminLoginComponent },
-			{ path: 'dashboard', component: AdminDashboardComponent },
-			{ path: 'create', component: AdminPostAddComponent },
-			{ path: 'post/:id/edit', component: AdminPostEditComponent },
+			{ path: 'dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
+			{ path: 'create', component: AdminPostAddComponent, canActivate: [AuthGuard] },
+			{ path: 'post/:id/edit', component: AdminPostEditComponent, canActivate: [AuthGuard] },
 		],
 	},
 ];

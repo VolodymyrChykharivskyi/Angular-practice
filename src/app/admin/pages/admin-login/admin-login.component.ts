@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/shared/interfaces/user.interface';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { AuthService } from '../../services';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
 	selector: 'app-admin-login',
@@ -11,10 +11,18 @@ import { Router } from '@angular/router';
 })
 export class AdminLoginComponent implements OnInit {
 	public form: FormGroup;
+	public isSubmitted = false;
+	public message: string;
 
-	constructor(private auth: AuthService, private router: Router) {}
+	constructor(public auth: AuthService, private router: Router, private route: ActivatedRoute) {}
 
 	public ngOnInit(): void {
+		this.route.queryParams.subscribe((params: Params) => {
+			if (params?.loginAgain) {
+				this.message = 'Please enter data!';
+			}
+		})
+
 		this.form = new FormGroup({
 			email: new FormControl(null, [Validators.required, Validators.email]),
 			password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -26,15 +34,23 @@ export class AdminLoginComponent implements OnInit {
 			return;
 		}
 
+		this.isSubmitted = true;
+
 		const user: User = {
 			email: this.form.value.email,
 			password: this.form.value.password,
+			returnSecureToken: true,
 		};
 
-		this.auth.login(user).subscribe(() => {
-			this.form.reset();
-			this.router.navigate(['/admin', 'dashboard']);
-		});
-		console.log(this.form.value);
+		this.auth.login(user).subscribe(
+			() => {
+				this.form.reset();
+				this.router.navigate(['/admin', 'dashboard']);
+				this.isSubmitted = false;
+			},
+			() => {
+				this.isSubmitted = false;
+			}
+		);
 	}
 }
