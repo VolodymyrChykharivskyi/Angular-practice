@@ -8,6 +8,7 @@ import { Environment } from './environment.interface';
 export const environment: Environment = {
 	production: false,
 	apiKey: environmentValue.apiKey,
+	fbDBUrl: environmentValue.fbDBUrl
 };
 
 /*

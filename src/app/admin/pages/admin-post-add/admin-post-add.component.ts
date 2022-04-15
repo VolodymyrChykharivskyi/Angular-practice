@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {Post} from "../../../shared/interfaces/post.interface";
+import { Post } from '../../../shared/interfaces/post.interface';
+import { PostsService } from '../../../shared/services/posts/posts.service';
+import { AlertService } from '../../../shared/services/alert/alert.service';
 
 @Component({
 	selector: 'app-admin-post-add',
@@ -10,7 +12,7 @@ import {Post} from "../../../shared/interfaces/post.interface";
 export class AdminPostAddComponent implements OnInit {
 	public form: FormGroup;
 
-	constructor() {}
+	constructor(private posts: PostsService, private alertService: AlertService) {}
 
 	public ngOnInit(): void {
 		this.form = new FormGroup({
@@ -31,5 +33,11 @@ export class AdminPostAddComponent implements OnInit {
 			author: this.form.value.author,
 			date: new Date(),
 		};
+
+		this.posts.create(post).subscribe(() => {
+			this.form.reset();
+
+			this.alertService.success('Post was created!');
+		});
 	}
 }

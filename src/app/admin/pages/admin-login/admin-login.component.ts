@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/shared/interfaces/user.interface';
-import { AuthService } from '../../services';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
 	selector: 'app-admin-login',
@@ -20,8 +20,10 @@ export class AdminLoginComponent implements OnInit {
 		this.route.queryParams.subscribe((params: Params) => {
 			if (params?.loginAgain) {
 				this.message = 'Please enter data!';
+			} else if (params?.authFailed) {
+				this.message = 'Session expired';
 			}
-		})
+		});
 
 		this.form = new FormGroup({
 			email: new FormControl(null, [Validators.required, Validators.email]),

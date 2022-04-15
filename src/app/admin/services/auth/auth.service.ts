@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../../shared/interfaces/user.interface';
-import {Observable, Subject, throwError} from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { tap, catchError } from 'rxjs/operators';
 import { FbAuthResponse } from '../../../shared/interfaces/fb-auth-response.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 	public error$: Subject<string> = new Subject<string>();
 
@@ -58,13 +58,13 @@ export class AuthService {
 
 		switch (message) {
 			case 'EMAIL_NOT_FOUND':
-				this.error$.next('Email not found')
+				this.error$.next('Email not found');
 				break;
 			case 'INVALID_EMAIL':
-				this.error$.next('Invalid email')
+				this.error$.next('Invalid email');
 				break;
 			case 'INVALID_PASSWORD':
-				this.error$.next('Invalid password')
+				this.error$.next('Invalid password');
 				break;
 		}
 

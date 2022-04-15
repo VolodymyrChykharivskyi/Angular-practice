@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
@@ -9,7 +8,6 @@ import { AdminPostAddComponent } from './pages/admin-post-add/admin-post-add.com
 import { AdminPostEditComponent } from './pages/admin-post-edit/admin-post-edit.component';
 import { AdminRoutingModule } from './admin-routing.module';
 
-import { AuthService } from './services/auth/auth.service';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from './guards';
 
@@ -21,8 +19,8 @@ import { AuthGuard } from './guards';
 		AdminPostAddComponent,
 		AdminPostEditComponent,
 	],
-	imports: [CommonModule, AdminRoutingModule, FormsModule, ReactiveFormsModule, SharedModule],
+	imports: [AdminRoutingModule, FormsModule, ReactiveFormsModule, SharedModule],
 	exports: [],
-	providers: [AuthService, AuthGuard],
+	providers: [AuthGuard],
 })
 export class AdminModule {}
