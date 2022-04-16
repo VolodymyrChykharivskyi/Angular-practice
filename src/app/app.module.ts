@@ -12,6 +12,8 @@ import { PostViewComponent } from './pages/post-view/post-view.component';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 registerLocaleData(ukLocale, 'uk');
 
@@ -19,7 +21,12 @@ const INTERCEPTOR_PROVIDER: Provider = { provide: HTTP_INTERCEPTORS, multi: true
 
 @NgModule({
 	declarations: [AppComponent, MainLayoutComponent, HomeComponent, PostComponent, PostViewComponent],
-	imports: [BrowserModule, AppRoutingModule, SharedModule],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		SharedModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+	],
 	providers: [INTERCEPTOR_PROVIDER],
 	bootstrap: [AppComponent],
 })
